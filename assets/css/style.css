@@ -1,0 +1,128 @@
+/* 1. 重設基礎樣式 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* 選擇適合古文的字體 */
+    font-family: "標楷體", "BiauKai", "DFKai-SB", serif;
+    background-color: #333; /* 視窗外的背景色，可選 */
+}
+
+/* 2. 實作「一頁一頁」的滾動容器 */
+.book-container {
+    height: 100vh; /* 容器高度為整個螢幕高度 */
+    overflow-y: scroll; /* 允許上下滾動 */
+    scroll-snap-type: y mandatory; /* 開啟垂直方向的強制滾動捕捉 */
+    scroll-behavior: smooth; /* 增加平滑滾動效果 */
+}
+
+/* 3. 單一頁面的版面設定 (左圖右文) */
+.page {
+    display: flex; /* 使用 Flexbox 實現左右並排 */
+    width: 100vw; /* 寬度佔滿螢幕 */
+    height: calc(100vh - 30px); /* 高度扣除 margin-bottom */
+    scroll-snap-align: start; /* 滾動時，對齊每一頁的頂部 */
+    background-color: #ffffff;
+    position: sticky; /* 改為 sticky 產生堆疊覆蓋的翻頁感 */
+    top: 0; /* 配合 sticky 固定在頂部 */
+    box-shadow: 0 -15px 30px rgba(0, 0, 0, 0.4); /* 增加上方陰影，強化立體覆蓋感 */
+    margin-bottom: 30px; /* 與下一頁邊界有30像素之空白 */
+}
+
+/* 封面頁樣式 */
+.cover-page {
+    display: block; /* 覆蓋 .page 的 flex 設定 */
+}
+
+.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.cover-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white; /* 假設背景圖較暗，使用白色文字 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 增加文字陰影以提高辨識度 */
+    width: 80%;
+}
+
+.cover-text h1 {
+    font-size: 5rem;
+    margin-bottom: 0.2em;
+    letter-spacing: 0.1em;
+}
+
+.cover-divider {
+    width: 60%;
+    margin: 0 auto 1em auto;
+    border: 0;
+    border-top: 2px solid white;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cover-text h2 {
+    font-size: 2rem;
+    font-weight: normal;
+    letter-spacing: 0.2em;
+}
+
+/* 4. 左半邊：圖片區塊 (佔 4 等份) */
+.page-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* <--- 加上這一行，消除下方空白 */
+}
+
+/* 5. 右半邊：文字區塊 (佔 6 等份) */
+.page-right {
+    flex: 6; /* 原本是 1，改為 6 */
+    display: flex;
+    align-items: flex-start; /* 向上對齊 */
+    justify-content: center;
+    padding: 30px 20px 40px 40px; /* 上邊距改為 30px (原本是 40px) */
+    position: relative;
+    /* 建議：因為文字區變寬了，這裡可以視情況調整背景色或邊距 */
+}
+
+/* 文字內容容器 */
+.content-box {
+    width: 90%;
+    max-width: 1000px; /* 增加最大寬度，讓每一行可多放約3個中文字 */
+    margin-top: 30px; /* 向上對齊後，給予上方一些留白 (原本是 40px) */
+}
+
+.content-box p {
+    margin-bottom: 1.5em; /* 縮小段落間距 */
+    line-height: 2.0; /* 縮小行距 (原本是 2.5) */
+    text-align: justify; /* 左右對齊 */
+}
+
+/* 處理標點符號大小與中文字型一致 */
+.content-box p {
+    font-size: 2.5rem; /* 設定段落基礎字體大小與 ruby 漢字一致 */
+}
+
+/* 6. <ruby> 與 <rt> 拼音音韻的樣式設定 */
+ruby {
+    font-size: 2.5rem; /* 漢字的大小 */
+    ruby-align: center; /* 拼音置中對齊漢字 */
+    margin-right: 0.3em; /* 每個字元之間的微小間距 */
+}
+
+rt {
+    font-size: 0.8rem; /* 拼音註記的大小 */
+    color: #006b6b; /* 配合您圖片中使用的深墨綠色 */
+    font-family: "微軟正黑體", sans-serif; /* 註記通常使用無襯線字體較清晰 */
+    letter-spacing: 0.05em;
+    transform: translateY(-0.2em); /* 微調拼音與漢字的距離 */
+}

@@ -1,0 +1,88 @@
+/* 1. 重設基礎樣式 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* 選擇適合古文的字體 */
+    font-family: "標楷體", "BiauKai", "DFKai-SB", serif;
+    background-color: #333; /* 視窗外的背景色，可選 */
+}
+
+/* 2. 實作「一頁一頁」的滾動容器 */
+.book-container {
+    height: 100vh; /* 容器高度為整個螢幕高度 */
+    overflow-y: scroll; /* 允許上下滾動 */
+    scroll-snap-type: y mandatory; /* 開啟垂直方向的強制滾動捕捉 */
+}
+
+/* 3. 單一頁面的版面設定 (左圖右文) */
+.page {
+    display: flex; /* 使用 Flexbox 實現左右並排 */
+    width: 100vw; /* 寬度佔滿螢幕 */
+    height: 100vh; /* 高度佔滿螢幕 */
+    scroll-snap-align: start; /* 滾動時，對齊每一頁的頂部 */
+    background-color: #ffffff;
+}
+
+/* 4. 左半邊：圖片區塊 */
+.page-left {
+    flex: 1; /* 佔據 50% 的空間 */
+    overflow: hidden; /* 隱藏超出邊界的圖片 */
+}
+
+.page-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 讓圖片保持比例填滿左側，不變形 */
+    /* object-fit: contain; 若您希望圖片完整顯示不被裁切，可改用這行 */
+}
+
+/* 5. 右半邊：文字區塊 */
+.page-right {
+    flex: 1; /* 佔據另 50% 的空間 */
+    display: flex;
+    align-items: center; /* 讓文字內容在垂直方向置中 */
+    justify-content: center; /* 讓文字內容在水平方向置中 */
+    padding: 40px;
+    position: relative;
+}
+
+/* 模擬圖片中上方的虛線裝飾 (選擇性) */
+.page-right::before {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    border-top: 1px dashed #ccc;
+}
+
+/* 文字內容容器 */
+.content-box {
+    width: 90%;
+    max-width: 800px;
+}
+
+.content-box p {
+    margin-bottom: 2em;
+    line-height: 2.5; /* 拉大行距，讓版面不擁擠 */
+    text-align: justify; /* 左右對齊 */
+}
+
+/* 6. <ruby> 與 <rt> 拼音音韻的樣式設定 */
+ruby {
+    font-size: 2.5rem; /* 漢字的大小 */
+    ruby-align: center; /* 拼音置中對齊漢字 */
+    margin-right: 0.3em; /* 每個字元之間的微小間距 */
+}
+
+rt {
+    font-size: 0.8rem; /* 拼音註記的大小 */
+    color: #006b6b; /* 配合您圖片中使用的深墨綠色 */
+    font-family: "微軟正黑體", sans-serif; /* 註記通常使用無襯線字體較清晰 */
+    letter-spacing: 0.05em;
+    transform: translateY(-0.2em); /* 微調拼音與漢字的距離 */
+}
