@@ -7,7 +7,8 @@
 
 body {
     /* 選擇適合古文的字體 */
-    font-family: "標楷體", "BiauKai", "DFKai-SB", serif;
+    /* font-family: "標楷體", "BiauKai", "DFKai-SB", serif; */
+    font-family: "霞鶩文楷 TC", "BiauKai", "DFKai-SB", serif;
     background-color: #333; /* 視窗外的背景色，可選 */
 }
 
@@ -26,9 +27,7 @@ body {
     height: calc(100vh - 30px); /* 高度扣除 margin-bottom */
     scroll-snap-align: start; /* 滾動時，對齊每一頁的頂部 */
     background-color: #ffffff;
-    position: sticky; /* 改為 sticky 產生堆疊覆蓋的翻頁感 */
-    top: 0; /* 配合 sticky 固定在頂部 */
-    box-shadow: 0 -15px 30px rgba(0, 0, 0, 0.4); /* 增加上方陰影，強化立體覆蓋感 */
+    position: relative; /* 恢復 relative，解決 PgUp/PgDn 鍵盤導覽失效的問題 */
     margin-bottom: 30px; /* 與下一頁邊界有30像素之空白 */
 }
 
@@ -37,11 +36,21 @@ body {
     display: block; /* 覆蓋 .page 的 flex 設定 */
 }
 
+/* 針對第二頁 (標題頁) 的背景設定 */
+.title-page-bg {
+    background-color: #000; /* 加上黑色背景，讓圖片淡化時不會變成白色底 */
+}
+
 .cover-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+/* 針對第二頁 (標題頁) 的圖片淡化設定 */
+.title-bg-img {
+    opacity: 0.4; /* 降低透明度，產生浮水印/淡化效果 (數值 0.0 ~ 1.0) */
 }
 
 .cover-text {
@@ -73,6 +82,47 @@ body {
     font-size: 2rem;
     font-weight: normal;
     letter-spacing: 0.2em;
+}
+
+.title-page {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 加上這行才能真正置中 */
+    text-align: center;
+    /* color: white; 假設背景圖較暗，使用白色文字 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 增加文字陰影以提高辨識度 */
+    width: 80%;
+    z-index: 10; /* 確保文字顯示在圖片之上 */
+    color: #d3d3d3; /* 淺灰色 */
+}
+
+/* 針對 title-page 內的 ruby 文字設定顏色與大小 */
+.title-page ruby {
+    /* color: white; */
+    color: #f0e68c; /* 鵝黃色 */
+    font-size: inherit; /* 繼承父元素 (.title 或 .author) 的字體大小 */
+}
+
+/* 如果您希望 title-page 內的拼音 (rt) 也變成白色，可以加上這段 */
+.title-page rt {
+    /* color: white; */
+    color: yellow;
+}
+
+.title {
+    font-family: "Noto Serif TC Black", "BiauKai", "DFKai-SB", serif;
+    font-size: 4.0rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+.author {
+    font-family: "Noto Serif TC Black", "BiauKai", "DFKai-SB", serif;
+    font-size: 2.5rem;
+    font-weight: normal;
+    letter-spacing: 0.1em;
+    text-align: center;
 }
 
 /* 4. 左半邊：圖片區塊 (佔 4 等份) */
